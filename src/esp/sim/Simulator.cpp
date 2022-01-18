@@ -1169,6 +1169,20 @@ bool Simulator::getAgentObservation(const int agentId,
                                     sensor::Observation& observation) {
   agent::Agent::ptr ag = getAgent(agentId);
   if (ag != nullptr) {
+    // todo sangarg: Special case this somehow.
+    // couple of approaches,
+    //  1. Each time the agent transform changes, update the agent transform
+    //      Then getObservationSpace can call runSimulation, but this will become expensive
+    //      specially if getObservation is part of the render loop
+    //  2. special case the code here to ignore all audio sensors, and leave explicit
+    //      control to the user
+    //  3. Call run simulation when we want to run a new simulation. GetObservation only returns
+    //      the last cached observation. The user can then decide when to run a new simulation
+    //      which seems like a good middle ground
+    //
+    // sensor::Sensor& sensor = ag->getSubtreeSensorSuite().get(sensorId);
+    //
+    //  same stuff flows into the functions below. Discuss this with Alex
     return ag->getSubtreeSensorSuite().get(sensorId).getObservation(
         *this, observation);
   }
