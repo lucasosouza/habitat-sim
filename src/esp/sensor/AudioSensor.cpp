@@ -161,8 +161,7 @@ bool AudioSensor::getObservation(sim::Simulator& sim, Observation& obs) {
 bool AudioSensor::getObservationSpace(ObservationSpace& obsSpace) {
   CORRADE_ASSERT(audioSimulator_, "getObservationSpace: audioSimulator_ should exist", false);
 
-  // todo sangarg : Check if we need a new observation space type, it is not being used currently
-  obsSpace.spaceType = ObservationSpaceType::None;
+  obsSpace.spaceType = ObservationSpaceType::Tensor;
 
   // shape is a 2 ints
   //    index 0 = channel count
@@ -216,6 +215,9 @@ void AudioSensor::loadSemanticMesh(sim::Simulator& sim) {
   const std::vector<std::shared_ptr<scene::SemanticObject>>& objects = semanticScene->objects();
 
   // todo sangarg : Do we have a debug flag???
+  // Add as CI test, test validate semantic test to audio sensor
+  // catch changes to semantic mesh changes
+  // c++ test, param for scene, texture based semantics can be added
   // Debug related stuff
   {
     // ESP_DEBUG() << "LOG --------------- Category size : " << categories.size();
@@ -360,10 +362,10 @@ void AudioSensor::loadSemanticMesh(sim::Simulator& sim) {
     totalIndicesLoaded += indices.indexCount;
   }
 
-  // todo sangarg : This could be an assert
   if (totalIndicesLoaded != sceneMesh_->ibo.size())
   {
     ESP_ERROR() << logHeader_ << "totalIndicesLoaded != sceneMesh_->ibo.size() : (" << totalIndicesLoaded << " != " << sceneMesh_->ibo.size() << ")";
+    CORRADE_ASSERT(false, "totalIndicesLoaded != sceneMesh_->ibo.size()", );
   }
 }
 

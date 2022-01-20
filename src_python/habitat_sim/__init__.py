@@ -88,6 +88,8 @@ if not getattr(builtins, "__HSIM_SETUP__", False):
         SensorSubType,
         SensorType,
         VisualSensorSpec,
+        AudioSensorSpec,
+        AudioSensor,
     )
     from habitat_sim.simulator import Configuration, Simulator  # noqa: F401
 
